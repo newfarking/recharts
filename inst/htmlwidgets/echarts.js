@@ -8,8 +8,7 @@ HTMLWidgets.widget({
 	
   renderValue: function(el, x, instance) {
     instance.setOption(x, true);
-	//instance.setTheme(eval(x.theme + "Theme"));
-
+    instance.on("click", x.eConsole);
   },
 
   resize: function(el, width, height, instance) {

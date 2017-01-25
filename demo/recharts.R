@@ -68,3 +68,48 @@ eWordcloud(wordFreqDf_chs, namevar = ~Word, datavar = ~Freq)
 eWordcloud(wordFreqDf_chs, namevar = ~Word, datavar = ~Freq) 
 
 
+
+
+
+
+datFrame = data.frame(x=c(0,-100,0,100),y=c(0,rep(60,3)), name=c("成本","带宽","机器","短信"))
+datList = lapply(split(datFrame, seq_len(nrow(datFrame))), as.list)
+names(datList) = NULL
+
+linksFrame = data.frame(source=c(rep("成本",3)),target=c("带宽","机器","短信"))
+linksList = lapply(split(linksFrame, seq_len(nrow(linksFrame))), as.list)
+names(linksList) = NULL
+
+opt <- list()
+opt$series = list(
+  list(
+    type = "graph",
+    roam = TRUE,
+    symbol = "roundRect",
+    symbolSize = c(80,30),
+    edgeSymbol= c('circle', 'arrow'),
+    edgeSymbolSize= c(4, 10),
+    data = datList,
+    links = linksList,
+    label = list(
+      normal = list(
+        show=TRUE
+      )
+    )
+  )
+)
+
+opt$eConsole=JS("function (param) {",
+              "alert(param);",
+              "console.log(param);",
+              "}")
+chart = htmlwidgets::createWidget(
+  'echarts', opt,
+  package = 'recharts', width = 500, height = 500,
+  preRenderHook = function(instance) {
+    instance
+  }
+)
+chart
+
+
